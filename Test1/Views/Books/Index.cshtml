@@ -1,0 +1,214 @@
+﻿@model IEnumerable<Test1.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Add Book</a>
+</p>
+
+<div class="" style="padding:0px;" id="">
+    <div class="">
+        <table class="table table-bordered table-striped " id="example">
+            <thead class="bg-dark text-white">
+                <tr>                    
+                    <th>
+                        BookName
+                    </th>
+                    <th>
+                        Author
+                    </th>
+                    <th>
+                        Code
+                    </th>
+                    <th>
+                        Available
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        ShelfId
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BookName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Author)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsAvailable)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ShelfId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id"><span><i class="bi bi-pencil"></i></span></a> |
+                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><span><i class="bi bi-trash"></i></span></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot class="bg-secondary text-white">
+                <tr>
+
+                    <th>BookName</th>
+                    <th>Author</th>
+                    <td></td>
+                    <td></td>
+                    <td class="fw-bold">
+                        <span>Total :</span>
+                        <span class="font_color_black float-left">@(Model.Sum(x => x.Price))</span></td>
+<td></td>
+<td></td>   
+<td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+
+
+<div class="row">
+
+    <div class="col-md-12">
+   @* <div class="col-md-6" style=" display:flex">
+        <div class="col-md-3 fw-bold">
+            <span class="font_color_black totalFeb">Total Price :</span>
+        </div>
+        <div class="col-md-3 fw-bold">
+            <span class="font_color_black float-left">@(Model.Sum(x => x.Price))</span>
+        </div>    
+    </div>*@
+    </div>
+</div>
+
+<div id="PrintPDF">
+    <table class="table table-bordered table-striped " style="display:none;" id="">
+        <thead class="bg-dark text-white">
+            <tr>
+                <th>
+                    Code
+                </th>
+                <th>
+                    BookName
+                </th>
+                <th>
+                    Author
+                </th>
+                <th>
+                    Available
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    ShelfId
+                </th>
+                <th>
+                    Status
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Author)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsAvailable)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShelfId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                   
+                </tr>
+            }
+        </tbody>
+       
+    </table>
+</div>
+</div>
+
+<form method="post" asp-controller="Books" asp-action="ExportExcel">
+    <input type="hidden" name="ExportData" id="ExportData" />
+    <input type="submit" id="btnSubmit" value="Export To PDF" class="btn btn-primary" />
+</form>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript">
+    var jq = jQuery.noConflict(true);
+    $(document).ready(function (){
+
+        var datatableInstance = jq('#example').DataTable({
+        
+        });
+
+      
+        $('#example tfoot th').each(function () {
+            var title = $('#example tfoot th').eq($(this).index()).text();
+           
+                $(this).html('<input type="text" class="form-control" placeholder=' + title + ' />');   
+               
+           
+           
+        });
+       
+        datatableInstance.columns().every(function () {
+            var dataTableColumn = this;
+            $(this.footer()).find('input').on('keyup change', function () {
+                dataTableColumn.search(this.value).draw();
+            });
+        });
+
+
+        $("#btnSubmit").click(function () {
+            $("input[name='ExportData']").val($("#PrintPDF").html());
+        });
+    });
+</script>
+
+
+
+

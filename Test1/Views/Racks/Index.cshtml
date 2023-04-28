@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Test1.Models.Rack>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Add Rack</a>
+</p>
+<table class="table table-bordered table-striped ">
+    <thead class="bg-dark text-white">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.RackId">Edit</a> |
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.RackId">Details</a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.RackId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

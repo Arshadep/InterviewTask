@@ -1,0 +1,53 @@
+﻿@model Test1.Models.Shelf
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>New Shelf</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+         
+
+            <div class="row" style="padding:10px">
+                <div class="col-md-6">
+                    <label asp-for="Code" class="control-label"></label>
+                </div>
+                <div class="col-md-6">
+                    <input asp-for="Code" class="form-control" />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px">
+                <div class="col-md-6">
+                    <label asp-for="RackId" class="control-label"></label>
+                </div>
+                <div class="col-md-6">
+                    <select class="form-control form-select form-select-md mb-2" asp-for="RackId" asp-items="@(new SelectList(ViewBag.data, "RackId", "Code"))">
+                        <option value="0">--SELECT--</option>
+                    </select>
+                    <span asp-validation-for="RackId" class="text-danger"></span>
+                </div>
+            </div>
+           
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" /> |   
+                <a class="btn btn-primary" asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

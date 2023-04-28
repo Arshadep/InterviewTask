@@ -1,0 +1,132 @@
+﻿@model Test1.ViewModel.BooksViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>New Book</h1>
+
+<h4></h4>
+<hr />
+
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+
+        <form asp-action="Create">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           
+            <div class="form-group">
+
+                <div class="row" style="padding:10px">
+                    <div class="col-md-6">
+                        <label asp-for="Code" class="control-label"></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input asp-for="Code" class="form-control" />
+                    </div>
+                </div>
+
+
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+
+
+                <div class="row" style="padding:10px">
+                    <div class="col-md-6">
+                        <label asp-for="BookName" class="control-label"></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input asp-for="BookName" class="form-control" />
+                    </div>
+                </div>
+
+
+                <span asp-validation-for="BookName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                <div class="row" style="padding:10px">
+                    <div class="col-md-6">
+                        <label asp-for="Author" class="control-label"></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input asp-for="Author" class="form-control" />
+                    </div>
+                </div>
+
+
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                <div class="row" style="padding:10px">
+                    <div class="col-md-6">
+                        <label asp-for="IsAvailable" class="control-label"></label>
+                    </div>
+                    <div class="col-md-6">
+                        @*<input asp-for="@Model.IsAvailable" class="form-control" />*@
+                        <select class="form-control form-select form-select-md mb-2" asp-for="IsAvailable" id="ddlAvailable">
+                            <option value="0">--SELECT--</option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                        </select>
+                    </div>
+                </div>
+                <span asp-validation-for="IsAvailable" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                <div class="row" style="padding:10px">
+                    <div class="col-md-6">
+                        <label asp-for="Price" class="control-label"></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input asp-for="Price" class="form-control" />
+                    </div>
+                </div>
+
+
+
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="row" style="padding:10px">
+                    <div class="col-md-6">
+                        <label asp-for="ShelfId" class="control-label"></label>
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-control form-select form-select-md mb-2" asp-for="ShelfId" asp-items="@(new SelectList(ViewBag.data, "ShelfId", "ShelfId"))">
+                            <option value="0">--SELECT--</option>
+                        </select>
+                        @* <input asp-for="ShelfId" class="form-control" />*@
+                    </div>
+                </div>
+
+
+
+                <span asp-validation-for="ShelfId" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" /> |
+                <a class="btn btn-primary" asp-action="Index">Back to List</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<div>
+   @* <a asp-action="Index">Back to List</a>*@
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
